@@ -12,7 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "./build",
     "rootDir": "./src",
-    "strict": false,
+    "strict": true,
     "allowJs": true, 
     "skipLibCheck": true
   },

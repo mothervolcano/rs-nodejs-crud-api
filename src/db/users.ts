@@ -1,54 +1,80 @@
 import { v4 as uuidv4 } from 'uuid';
 
-interface UserRecord {
+interface UserData {
 	username: string;
 	age: number;
 	hobbies: string[];
 }
 
-interface UserEntry extends UserRecord {
+interface UserEntry extends UserData {
 	id: string;
 }
 
 
-export default class Users {
-	_db = [
-		{
-			id: "123e4567-e89b-12d3-a456-426614174000",
-			username: "Winston Smith",
-			age: 39,
-			hobbies: ["writing in a diary", "rebelling against dystopia"]
-		},
-		{
-			id: "123e4567-e89b-12d3-a456-426614174002",
-			username: "Captain Nemo",
-			age: 45,
-			hobbies: ["underwater exploration", "building submarines", "steam punk"]
-		},
-		{
-			id: "123e4567-e89b-12d3-a456-426614174003",
-			username: "Lyra Belacqua",
-			age: 11,
-			hobbies: ["reading alethiometers", "adventuring"]
-		},
-	];
+export let users: UserEntry[] = [
+];
 
-	constructor() {
 
+export function populate(list: UserData[]) {
+	list.forEach(d => {
+		users.push({ id: uuidv4(), ...d });
+	});
+}
+
+export function findUserById(id: string): UserEntry | null {
+	const user = users.find(user => user.id === id);
+	return user || null;
+}
+
+export function addNewUser(data: UserData): UserEntry {
+	const id = uuidv4();
+	const userEntry = {
+		id,
+		...data
 	}
 
-	get db() {
-		return this._db;
+	users.push(userEntry);
+
+	return userEntry;
+}
+
+export function editUser(id: string, data: UserData) {
+	let userToUpdate = users.find( user => user.id === id);
+
+	if (userToUpdate) {
+		return Object.assign(userToUpdate, data);
+	}
+}	
+
+export function deleteUser(id: string): UserEntry | null {
+	const deletedUser = users.find( user => user.id === id);
+	const updatedUsers = users.filter( user => user.id !== id );
+
+	users = updatedUsers;
+
+	return deletedUser || null;
+}
+
+export function deleteAll() {
+	users = [];
+}
+
+export function validateUserData(data: any): UserData | null {
+	if (!data.username || !data.age) {
+		return null;
 	}
 
-	populate(list: UserRecord[]) {
-		list.forEach( d => {
-			this._db.push({id: uuidv4(), ...d});
-		});
-	}
+	const hobbies = data.hobbies || [];
 
-	findById(id: string) {
-		const user = this.db.find( user => user.id === id);
-		return user || null;
+	return {
+		username: data.username,
+		age: data.age,
+		hobbies
 	}
 }
+
+export function replaceUsers(newUsers: UserEntry[]) {
+	users = newUsers;
+}	
+
+

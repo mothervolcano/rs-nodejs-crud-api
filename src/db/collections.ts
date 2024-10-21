@@ -1,4 +1,23 @@
 export const initialUsers = [
+	{
+		username: "Winston Smith",
+		age: 39,
+		hobbies: ["writing in a diary", "rebelling against dystopia"]
+	},
+	{
+		username: "Captain Nemo",
+		age: 45,
+		hobbies: ["underwater exploration", "building submarines", "steam punk"]
+	},
+	{
+		username: "Lyra Belacqua",
+		age: 11,
+		hobbies: ["reading alethiometers", "adventuring"]
+	},
+]
+
+
+export const bulkUsers = [
 	{ 
 		username: "Ivan Karamazov",
 		age: 34,

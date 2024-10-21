@@ -28,6 +28,8 @@
     "typescript-eslint": "^8.9.0"
   },
   "dependencies": {
+    "@types/supertest": "^6.0.2",
+    "@types/uuid": "^10.0.0",
     "uuid": "^10.0.0"
   }
 }
