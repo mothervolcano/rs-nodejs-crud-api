@@ -4,8 +4,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import Users from './db/users.ts';
-import { initialUsers } from './db/collections.ts';
+import Users from './db/users';
+import { initialUsers } from './db/collections';
 
 const PORT = process.env.PORT;
 

@@ -1,13 +1,21 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "esnext",
-    "moduleResolution": "nodenext",
-    "allowImportingTsExtensions": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"]
+    },
+    "target": "es2022",
+    "module": "Node16",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
-    "strict": false, 
+    "allowImportingTsExtensions": false,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./build",
+    "rootDir": "./src",
+    "strict": false,
+    "allowJs": true, 
     "skipLibCheck": true
   },
-  "include": ["./**/*.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
