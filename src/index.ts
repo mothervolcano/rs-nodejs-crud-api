@@ -1,4 +1,7 @@
+import cluster from 'cluster';
 import http from 'http';
+import { availableParallelism } from 'os';
+import process from 'process';
 import path from 'path';
 
 import dotenv from 'dotenv';
@@ -9,9 +12,10 @@ import { initialUsers } from './db/collections';
 
 const PORT = process.env.PORT;
 
-const server = http.createServer((req, res) => {
+const router = (req, res) => {
 	
-	console.log("! REQ: ", req.url);
+	// console.log("! REQ: ", req);
+	// console.log("! RES: ", res);
 	
 	const users = new Users();
 	users.populate(initialUsers);
@@ -20,6 +24,9 @@ const server = http.createServer((req, res) => {
 
 		if (req.method === "GET") {
 			const listOfUsers = users.db.map( d => `${d.username}: ${d.id}` ).join('\n');
+
+			console.log('! ', listOfUsers);
+
 			res.writeHead(200, { 'Content-Type': 'text/plain'});
 			res.end(`User's on the database: \n\n${listOfUsers}`);
 		}
@@ -51,12 +58,25 @@ const server = http.createServer((req, res) => {
 		res.writeHead(200, { 'Content-Type': 'text/plain'});
 		res.end(`Welcome to this app`);
 	}
+}
 
-});
 
-server.listen(PORT);
+const numCPUs = availableParallelism();
 
-console.log(`Server running on http://localhost:${PORT} ... `);
+if (cluster.isPrimary) {
 
-export default server;
+	for (let i = 0; i < numCPUs; i++) {
+		cluster.fork();
+	}
+
+} else {
+
+	const server = http.createServer((req, res) => {
+		router(req, res);
+	});
+
+	server.listen(PORT);
+
+	console.log(`Worker ${process.pid} listening` );
+}
 
