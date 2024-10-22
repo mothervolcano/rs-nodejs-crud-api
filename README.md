@@ -34,7 +34,7 @@ npm run start:dev
 npm run start:prod
 ```
 
-### 5. Run the tests
+### 5. ...Or Run the tests
 ```bash
 npm run test
 ```
@@ -46,7 +46,7 @@ You could test the project in two ways:
 1. Quickly and easily add your tests inside the tests folder.
 2. This project uses supertest. Example test structure:
 
-```bash
+```javascript
 import request from 'supertest';
 import { createServer } from '../src/index';
 
@@ -55,17 +55,30 @@ const res = await request(server).get('/api/users');
 
 3. To send a payload with the request, chain the .send() method:
 
-```bash
+```javascript
 const res = await request(server)
   .post('/api/users')
   .send({ username: 'Joe', age: 50 });
+```
+
+4. (Optional) You have available collections of users you can use to quickly populate the database.
+
+```javascript
+import { initialUsers, bulkUsers } from '../src/db/collections';
+import { populate } from '../src/db/users'; //it will generate the uuid's and add the users to the database
+
+populate(initialUsers);
+
+//and/or
+
+populate(bulkUsers);
 ```
 
 #### B) Manual Testing (e.g., Curl or Postman)
 
 1. In index.ts, comment out the following block of code to prevent clustering:
 
-```bash
+```javascript
 if (cluster.isPrimary) {
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
@@ -77,7 +90,7 @@ if (cluster.isPrimary) {
 
 2. Start a single server process by directly calling:
 
-```bash
+```javascript
 createServer();
 ```
 
