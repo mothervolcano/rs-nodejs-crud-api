@@ -18,7 +18,12 @@ git pull
 npm install
 ```
 
-### 3. Start the Server
+### 3. Create your own .env file with:
+```bash
+PORT=4000 //or any other available port you prefer
+```
+
+### 4. Start the Server
 #### Development mode:
 ```bash
 npm run start:dev
@@ -29,7 +34,7 @@ npm run start:dev
 npm run start:prod
 ```
 
-### 4. Run the tests
+### 5. Run the tests
 ```bash
 npm run test
 ```
